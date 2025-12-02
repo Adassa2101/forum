@@ -6,11 +6,11 @@ const router = Router();
 router.post('/post/:author',validate('createPost'), postController.createPost);
 router.get('/post/:id', postController.getPostById);
 router.delete('/post/:id', postController.deletePost);
-router.patch('post/:id/like',postController.addLike);
-router.get('posts/author/:author',postController.findPostsByAuthor);
-router.patch('post/:id/comment/:comment',postController.addComment);
-router.get('posts/tags',postController.findPostByTags);
-router.get('/posts/period',postController.findPostByPeriod);
-router.patch('post/:id',postController.updatePost);
+router.patch('/post/:id/like',postController.addLike);
+router.get('/posts/author/:author',postController.getPostsByAuthor);
+router.patch('/post/:id/comment/:comment' ,validate('addComment'),postController.addComment);
+router.get('/posts/tags',postController.getPostsByTags);
+router.get('/posts/period',validate('dateFormat', 'query'),postController.getPostsByPeriod);
+router.patch('/post/:id',validate('updatePost'),postController.updatePost);
 
 export default router;

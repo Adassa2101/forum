@@ -9,7 +9,7 @@ const CommentSchema = new Schema( {
         type:String,
         required: true
     },
-    dateCreated:{
+    dataCreated:{
         type:Date,
         default:Date.now
     },
@@ -18,6 +18,11 @@ const CommentSchema = new Schema( {
         default:0
     }
 }, {
-        _id:false
+        _id:false,
+    toJSON: {
+        transform: (doc, ret) => {
+            ret.dataCreated = ret.dataCreated.toISOString().slice(0, 19);
+        }
+    }
     })
 export default CommentSchema;

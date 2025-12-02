@@ -40,7 +40,7 @@ class PostController {
 
     async getPostsByAuthor(req, res, next) {
         try {
-            const posts = await postService.getPostByAuthor( req.params.author );
+            const posts = await postService.getPostsByAuthor( req.params.author );
             return res.json( posts );
         }catch (err){
             return next( err );
@@ -63,7 +63,7 @@ class PostController {
             values = req.query.values;
         }
         try {
-            const posts = await postService.getPostByTags( values );
+            const posts = await postService.getPostsByTags( values );
             return res.json( posts );
         }catch (err){
             return next( err );

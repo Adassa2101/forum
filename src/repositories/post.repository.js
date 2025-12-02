@@ -18,7 +18,7 @@ class postRepository {
         return Post.findByIdAndUpdate( id, {$inc: {likes: 1}}, {new: true} );
     }
 
-    async findPostsByAuthor(author) {
+    async findPostByAuthor(author) {
         return Post.find( {author: new RegExp( `^${author}$`, 'i' )} );
     }
 
@@ -26,14 +26,14 @@ class postRepository {
         return Post.findByIdAndUpdate( id, {$push: {comments: comment}}, {new: true} )
     }
 
-    async findPostByTags(tags) {
+    async findPostsByTags(tags) {
         const regexCondition = tags.map( tag => ({
             tags: new RegExp( `^${tag}$`, 'i' )
         }) );
         return Post.find( {$or: regexCondition} );
     }
 
-    async findPostByPeriod(dateFrom, dateTo) {
+    async findPostsByPeriod(dateFrom, dateTo) {
         return Post.find( {dateCreated: {$gte: dateFrom, $lte: dateTo}} );
     }
     async updatePost(id, updateData) {

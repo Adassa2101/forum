@@ -23,8 +23,8 @@ class PostService {
 
     }
 
-    async getPostByAuthor(author) {
-        return await postRepository.findPostsByAuthor( author );
+    async getPostsByAuthor(author) {
+        return await postRepository.findPostByAuthor( author );
 
     }
 
@@ -45,17 +45,17 @@ class PostService {
         return post;
     }
 
-    async getPostByTags(tagsString) {
+    async getPostsByTags(tagsString) {
         const tags = tagsString.split( ',' ).map( tag => tag.trim().toLowerCase() );
-        return await postRepository.findPostByTags( tags );
+        return await postRepository.findPostsByTags( tags );
     }
 
     async getPostsByPeriod(dateFrom, dateTo) {
-        return await postRepository.findPostByPeriod( new Date( dateFrom ), new Date( dateTo ) );
+        return await postRepository.findPostsByPeriod( new Date( dateFrom ), new Date( dateTo ) );
     }
 
     async updatePost(postId, data) {
-        const post = await postRepository.updatePostById( postId, data );
+        const post = await postRepository.findPostById( postId, data );
         if (!post) {
             throw new Error( `Post with id ${postId} not found` );
         }

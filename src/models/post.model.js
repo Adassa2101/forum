@@ -43,6 +43,7 @@ const PostSchema = new Schema( {
             transform: (doc, ret) => {
                 ret.id = ret._id;
                 delete ret._id;
+                ret.dataCreated = ret.dataCreated.toISOString().slice(0, 19);
             }
         }
     })
