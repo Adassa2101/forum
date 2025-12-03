@@ -17,6 +17,25 @@ const schemas = {
     dateFormat: Joi.object({
         dateFrom: Joi.date().iso().required(),
         dateTo: Joi.date().iso().required()
+    }),
+    registerUser: Joi.object({
+        login: Joi.string().required(),
+        password: Joi.string().min(8).required(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+    }),
+    updateUser: Joi.object({
+        login: Joi.string(),
+        password: Joi.string().min(8),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        roles: Joi.array().items(Joi.string())
+    }),
+    changeRoles: Joi.object({
+        isAddRole: Joi.boolean().required()
+    }),
+    changePassword: Joi.object({
+        password: Joi.string().min(8).required()
     })
 }
 const validate = (schemaName, target = 'body') => (req, res, next) => {

@@ -1,6 +1,6 @@
 class UserAccountService {
 
-    async register(user) {
+    async registerUser(user) {
 
     }
     async loginUser(login) {
@@ -23,3 +23,4 @@ class UserAccountService {
 
     }
 }
+export default new UserAccountService();
