@@ -40,5 +40,13 @@ userAccountSchema.pre( 'save', async function () {
         this.password = await bcrypt.hash( this.password, salt );
     }
 } )
+userAccountSchema.pre( 'findOneAndUpdate', async function () {
+    const update = this.getUpdate();
+    if(update.password) {
+        const salt = await bcrypt.genSalt( 12 );
+        update.password = await bcrypt.hash( update.password, salt );
+        this.setUpdate( update);
+    }
+    })
 
 export default model( 'UserAccount', userAccountSchema, 'users' )
