@@ -5,13 +5,12 @@ class UserAccountService {
     async registerUser(user) {
         try {
             return await userAccountRepository.addUser( user );
-        }catch (e){
-            console.log(e);
-            throw new Error('User with login already exists.');
+        } catch (e) {
+            console.log( e );
+            throw new Error( 'User with login already exists.' );
         }
 
     }
-
 
     async getUser(login) {
         const userAccount = await userAccountRepository.findUser( login );
@@ -39,22 +38,22 @@ class UserAccountService {
 
     async changeRoles(login, role, isAddRole) {
         role = role.toUpperCase();
-        let userAccount ;
+        let userAccount;
         if (isAddRole) {
-            userAccount= await userAccountRepository.addRole( login, role );
+            userAccount = await userAccountRepository.addRole( login, role );
         } else {
             userAccount = await userAccountRepository.removeRole( login, role );
         }
-        if(!userAccount){
+        if (!userAccount) {
             throw new Error( `User with login ${login} not found` )
         }
-        userAccount.firstName = userAccount.lastName = undefined;
-        const{roles,userName=login} = userAccount;
-        return {roles,login:userName};
+        //userAccount.firstName = userAccount.lastName = undefined;
+        const {roles, userName = login} = userAccount;
+        return {roles, login: userName};
     }
 
     async changePassword(login, newPassword) {
-
+        const userAccount = await userAccountRepository.changePassword( login, newPassword );
     }
 
 }
