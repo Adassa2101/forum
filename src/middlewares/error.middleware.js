@@ -1,11 +1,18 @@
 const errorHandler = (err, req, res, next) => {
     console.log( err.stack );
-    const contains = err.message.includes( 'not found' );
 
-    if (err.message && contains) {
+    if (err.message && err.message.includes( 'not found' )) {
         return res.status( 404 ).json( {
             status: 'not found',
             code: 404,
+            message: err.message,
+            path: req.path
+        } );
+    }
+    if (err.message && err.message.includes( 'login already exists' )) {
+        return res.status( 409 ).json( {
+            status: 'Conflict',
+            code: 409,
             message: err.message,
             path: req.path
         } );
