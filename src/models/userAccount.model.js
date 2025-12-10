@@ -1,27 +1,28 @@
 import {model, Schema} from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt'
 
-const userAccountSchema = new Schema( {
+
+const userAccountSchema = new Schema({
     _id: {
         type: String,
         required: true,
-        alias: "login"
+        alias: 'login'
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
     firstName: {
         type: String,
-        required: true,
+        required: true
     },
     lastName: {
         type: String,
-        required: true,
+        required: true
     },
     roles: {
         type: [String],
-        default: ["USER"]
+        default: ['USER']
     }
 }, {
     versionKey: false,
@@ -31,22 +32,16 @@ const userAccountSchema = new Schema( {
             delete ret._id;
             delete ret.password;
         }
+    }
+})
 
-    }
-} )
-userAccountSchema.pre( 'save', async function () {
-    if (this.isModified( 'password' )) {
-        const salt = await bcrypt.genSalt( 12 );
-        this.password = await bcrypt.hash( this.password, salt );
-    }
-} )
-userAccountSchema.pre( 'findOneAndUpdate', async function () {
-    const update = this.getUpdate();
-    if(update.password) {
-        const salt = await bcrypt.genSalt( 12 );
-        update.password = await bcrypt.hash( update.password, salt );
-        this.setUpdate( update);
-    }
-    })
 
-export default model( 'UserAccount', userAccountSchema, 'users' )
+userAccountSchema.pre('save', async function() {
+    if(this.isModified('password')) {
+        const salt = await bcrypt.genSalt(12);
+        this.password = await bcrypt.hash(this.password, salt);
+    }
+})
+
+
+export default model('UserAccount', userAccountSchema, 'users');

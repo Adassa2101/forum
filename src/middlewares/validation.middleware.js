@@ -20,23 +20,19 @@ const schemas = {
     }),
     registerUser: Joi.object({
         login: Joi.string().required(),
-        password: Joi.string().min(8).required(),
+        password: Joi.string().required(),
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
     }),
     updateUser: Joi.object({
-        login: Joi.string(),
-        password: Joi.string().min(8),
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
-        roles: Joi.array().items(Joi.string())
+        firstName: Joi.string(),
+        lastName: Joi.string(),
     }),
     changeRoles: Joi.object({
-        isAddRole: Joi.boolean().required()
+        role: Joi.string().valid('User', 'Moderator', 'Administrator').insensitive().required(),
+        user: Joi.string().required()
     }),
-    changePassword: Joi.object({
-        password: Joi.string().min(8).required()
-    })
+
 }
 const validate = (schemaName, target = 'body') => (req, res, next) => {
     const schema = schemas[schemaName];

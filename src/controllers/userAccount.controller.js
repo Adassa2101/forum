@@ -71,7 +71,7 @@ class UserAccountController {
     }
     async getUser(req, res, next){
 try {
-    const userAccount = await usweAccountService.getUser(req.params.user);
+    const userAccount = await userAccountService.getUser(req.params.user);
     return res.json(userAccount);
 }catch(err){
     return next(err);
