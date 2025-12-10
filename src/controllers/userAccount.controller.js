@@ -4,20 +4,21 @@ class UserAccountController {
     async registerUser(req, res, next) {
         try {
             const userAccount = await userAccountService.registerUser( req.body );
-            return res.status(201).json( userAccount );
+            return res.status( 201 ).json( userAccount );
         } catch (err) {
             return next( err );
         }
     }
 
     async loginUser(req, res, next) {
-
+        const userAccount = await userAccountService.getUser( req.principal.username );
+        return res.json( userAccount );
     }
 
     async removeUser(req, res, next) {
         try {
             const userAccount = await userAccountService.removeUser( req.params.user );
-            return res.json(userAccount);
+            return res.json( userAccount );
         } catch (err) {
             return next( err );
         }
@@ -31,51 +32,40 @@ class UserAccountController {
             return next( err );
         }
     }
+
     async addRole(req, res, next) {
-        const{user, role} = req.params;
-        try{
+        const {user, role} = req.params;
+        try {
             const userRoles = await userAccountService.changeRoles( user, role, true );
-        return res.json( userRoles );
-        }catch (err){
-            return next( err );
-        }
-    }
-    async deleteRole(req, res, next) {
-        const{user, role} = req.params;
-        try{
-            const userRoles = await userAccountService.changeRoles( user, role, false );
             return res.json( userRoles );
-        }catch (err){
+        } catch (err) {
             return next( err );
         }
     }
 
-    /*async changeRoles(req,res,next){
+    async deleteRole(req, res, next) {
+        const {user, role} = req.params;
         try {
-            const { login, role, isAddRole } = req.params;
-            const result = await userAccountService.changeRoles( user, role, true );
-            const res = await userAccountService.changeRoles( user, role, false );
-            return res.json(result);
+            const userRoles = await userAccountService.changeRoles( user, role, false );
+            return res.json( userRoles );
         } catch (err) {
-            return next(err);
-        }
-    }*/
-    async changePassword(req, res, next){
-        try {
-            const { password:newPassword } = req.body;
-            const resultChange = await userAccountService.changePassword( req.params.login, newPassword );
-            return res.json(resultChange );
-        } catch (err) {
-            return next(err);
+            return next( err );
         }
     }
-    async getUser(req, res, next){
-try {
-    const userAccount = await userAccountService.getUser(req.params.user);
-    return res.json(userAccount);
-}catch(err){
-    return next(err);
-}
+
+    async changePassword(req, res, next) {
+        await userAccountService.changePassword(req.principal.username, req.body.password);
+        return res.sendStatus( 204 );
+    }
+
+    async getUser(req, res, next) {
+        try {
+            const userAccount = await userAccountService.getUser( req.params.user );
+            return res.json( userAccount );
+        } catch (err) {
+            return next( err );
+        }
     }
 }
+
 export default new UserAccountController();

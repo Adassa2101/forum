@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import {USER,ADMIN, MODERATOR} from "../config/constants.js";
 
 const schemas = {
     createPost: Joi.object( {
@@ -29,9 +30,12 @@ const schemas = {
         lastName: Joi.string(),
     }),
     changeRoles: Joi.object({
-        role: Joi.string().valid('User', 'Moderator', 'Administrator').insensitive().required(),
+        role: Joi.string().valid(USER, MODERATOR, ADMIN).insensitive().required(),
         user: Joi.string().required()
     }),
+    changePassword: Joi.object({
+        password: Joi.string().required()
+    } )
 
 }
 const validate = (schemaName, target = 'body') => (req, res, next) => {

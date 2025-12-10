@@ -10,7 +10,7 @@ router.delete('/user/:user', userAccountController.removeUser);
 router.patch('/user/:user',validate('updateUser'), userAccountController.updateUser);
 router.patch('/user/:user/role/:role',validate('changeRoles','params'), userAccountController.addRole);
 router.delete('/user/:user/role/:role', validate('changeRoles', 'params'), userAccountController.deleteRole);
-router.patch('/password', userAccountController.changePassword);
+router.patch('/password',validate('changePassword'), userAccountController.changePassword);
 router.get('/:user', userAccountController.getUser);
 
 export default router;
