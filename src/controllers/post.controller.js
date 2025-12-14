@@ -1,5 +1,5 @@
 import postService from '../services/post.service.js';
-import {json} from "express";
+//import {json} from "express";
 
 class PostController {
     async createPost(req, res, next) {
