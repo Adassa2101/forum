@@ -4,7 +4,7 @@ const authentication = async (req, res, next) => {
 
     if (req.method === 'OPTIONS') {
         return res.sendStatus(204);
-        next();
+
     }
 
     if (req.path !== '/account/register'&& !req.path.startsWith('/forum/posts')) {
