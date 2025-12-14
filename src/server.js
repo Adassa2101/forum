@@ -8,10 +8,19 @@ import authentication from "./middlewares/authentication.middleware.js";
 import {createAdmin} from "./config/initAdmin.js";
 import authorization from "./middlewares/authorization.middleware.js";
 import {ADMIN, MODERATOR} from "./config/constants.js";
-
+import cors from "cors";
 
 const app = express();
 const authorizationRouter = Router();
+
+app.use(
+    cors({
+        origin: true,
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    })
+);
 
 app.use(express.json());
 app.use(authentication);
